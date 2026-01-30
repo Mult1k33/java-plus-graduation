@@ -1,0 +1,31 @@
+name: java-explore-with-me-local
+services:
+  stats-db-local:
+    image: postgres:16.1
+    container_name: stats_db_local
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=statDB_local
+      - POSTGRES_USER=localuser
+      - POSTGRES_PASSWORD=localpass
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
+  main-db-local:
+    image: postgres:16.1
+    container_name: main_db_local
+    ports:
+      - "6543:5432"
+    environment:
+      - POSTGRES_DB=mainDB_local
+      - POSTGRES_USER=localuser
+      - POSTGRES_PASSWORD=localpass
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
