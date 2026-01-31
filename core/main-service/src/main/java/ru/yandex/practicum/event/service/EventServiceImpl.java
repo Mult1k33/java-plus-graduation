@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.CreateEndpointHitDto;
-import ru.yandex.practicum.StatsClient;
+import ru.yandex.practicum.StatsClientApp;
 import ru.yandex.practicum.ViewStatsDto;
 import ru.yandex.practicum.category.dto.CategoryDto;
 import ru.yandex.practicum.category.mapper.CategoryMapper;
@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
     private final UserService userService;
     private final RequestRepository requestRepository;
-    private final StatsClient statsClient;
+    private final StatsClientApp statsClient;
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 

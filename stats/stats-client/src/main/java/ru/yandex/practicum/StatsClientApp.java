@@ -18,11 +18,11 @@ import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
 
 @Slf4j
 @Component
-public class StatsClient {
+public class StatsClientApp {
     private final RestClient restClient;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
-    public StatsClient(@Value("${stats-server.url:http://localhost:9090}") String serverUrl) {
+    public StatsClientApp(@Value("${stats-server.url:http://localhost:9090}") String serverUrl) {
         this.restClient = RestClient.builder()
                 .baseUrl(serverUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
