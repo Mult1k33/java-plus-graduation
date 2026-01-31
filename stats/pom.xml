@@ -10,10 +10,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>ru.yandex.practicum</groupId>
     <artifactId>stats</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Stat Service</name>
 
     <modules>
         <module>stats-client</module>
@@ -26,10 +25,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>
