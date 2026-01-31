@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="StatApplication (local)" type="Application" factoryName="Application">
+        <option name="ALTERNATIVE_JRE_PATH" value="21"/>
+        <option name="MAIN_CLASS_NAME" value="ru.practicum.StatApplication"/>
+        <module name="stats-server"/>
+        <option name="VM_PARAMETERS" value="-Dspring.profiles.active=local"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

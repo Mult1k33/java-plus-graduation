@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     @Query("""
-            SELECT new ru.practicum.ViewStatsDto(e.app, e.uri, COUNT(DISTINCT e.ip))
+            SELECT new ru.yandex.practicum.ViewStatsDto(e.app, e.uri, COUNT(DISTINCT e.ip))
             FROM EndpointHit e
             WHERE e.timestamp BETWEEN :start AND :end
             AND (:uris IS NULL OR e.uri IN :uris)
@@ -20,7 +20,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     List<ViewStatsDto> getUniqueStats(LocalDateTime start, LocalDateTime end, List<String> uris);
 
     @Query("""
-            SELECT new ru.practicum.ViewStatsDto(e.app, e.uri, COUNT(e))
+            SELECT new ru.yandex.practicum.ViewStatsDto(e.app, e.uri, COUNT(e))
             FROM EndpointHit e
             WHERE e.timestamp BETWEEN :start AND :end
             AND (:uris IS NULL OR e.uri IN :uris)
