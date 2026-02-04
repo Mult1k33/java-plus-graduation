@@ -1,0 +1,31 @@
+package ru.yandex.practicum.dto.event;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import ru.yandex.practicum.category.dto.CategoryDto;
+import ru.yandex.practicum.user.dto.UserShortDto;
+
+import java.time.LocalDateTime;
+
+import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
+
+public record EventShortDto(
+        Long id,
+
+        String annotation,
+
+        CategoryDto category,
+
+        Long confirmedRequests,
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
+        LocalDateTime eventDate,
+
+        UserShortDto initiator,
+
+        boolean paid,
+
+        String title,
+
+        Long views
+) {
+}

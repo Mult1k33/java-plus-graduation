@@ -2,7 +2,6 @@ package ru.yandex.practicum.event.mapper;
 
 import org.mapstruct.*;
 import ru.yandex.practicum.category.model.Category;
-import ru.yandex.practicum.event.dto.*;
 import ru.yandex.practicum.event.model.Event;
 import ru.yandex.practicum.event.model.EventState;
 import ru.yandex.practicum.user.model.User;

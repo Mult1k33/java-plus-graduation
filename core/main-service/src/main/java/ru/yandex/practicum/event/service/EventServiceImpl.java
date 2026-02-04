@@ -14,7 +14,6 @@ import ru.yandex.practicum.category.dto.CategoryDto;
 import ru.yandex.practicum.category.mapper.CategoryMapper;
 import ru.yandex.practicum.category.model.Category;
 import ru.yandex.practicum.category.service.CategoryService;
-import ru.yandex.practicum.event.dto.*;
 import ru.yandex.practicum.event.mapper.EventMapper;
 import ru.yandex.practicum.event.model.*;
 import ru.yandex.practicum.event.repository.EventRepository;

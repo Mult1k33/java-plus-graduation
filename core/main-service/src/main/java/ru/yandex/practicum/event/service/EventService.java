@@ -1,7 +1,6 @@
 package ru.yandex.practicum.event.service;
 
 import org.springframework.data.domain.Pageable;
-import ru.yandex.practicum.event.dto.*;
 import ru.yandex.practicum.event.model.Event;
 
 import java.util.List;
