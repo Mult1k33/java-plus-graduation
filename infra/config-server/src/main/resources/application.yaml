@@ -8,9 +8,12 @@ spring:
       server:
         native:
           searchLocations:
-            - classpath:config/main-service/
+            - classpath:config/event-service/
             - classpath:config/stats-server/
             - classpath:config/gateway-server/
+            - classpath:config/user-service/
+            - classpath:config/request-service/
+            - classpath:config/comment-service/
 
 server:
   port: 0

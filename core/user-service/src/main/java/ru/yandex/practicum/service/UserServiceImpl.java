@@ -7,20 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yandex.practicum.dto.user.NewUserRequest;
-import ru.yandex.practicum.dto.user.UserDto;
-import ru.yandex.practicum.dto.user.UserShortDto;
-import ru.yandex.practicum.exception.ConflictException;
-import ru.yandex.practicum.exception.NotFoundException;
+import ru.yandex.practicum.dto.user.*;
+import ru.yandex.practicum.exception.*;
 import ru.yandex.practicum.mapper.UserMapper;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.repository.UserRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Slf4j
 @Service

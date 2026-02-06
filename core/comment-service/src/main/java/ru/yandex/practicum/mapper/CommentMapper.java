@@ -1,10 +1,7 @@
 package ru.yandex.practicum.mapper;
 
 import org.mapstruct.*;
-import ru.yandex.practicum.dto.comment.CommentAdminDto;
-import ru.yandex.practicum.dto.comment.CommentDto;
-import ru.yandex.practicum.dto.comment.NewCommentDto;
-import ru.yandex.practicum.dto.comment.UpdateCommentDto;
+import ru.yandex.practicum.dto.comment.*;
 import ru.yandex.practicum.model.Comment;
 
 @Mapper(componentModel = "spring")

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
 
 public record CreateEndpointHitDto(
+
         @NotBlank(message = "Название приложения не может быть пустым")
         String app,
 

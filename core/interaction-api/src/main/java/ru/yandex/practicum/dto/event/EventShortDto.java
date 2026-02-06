@@ -1,31 +1,38 @@
 package ru.yandex.practicum.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ru.yandex.practicum.category.dto.CategoryDto;
-import ru.yandex.practicum.user.dto.UserShortDto;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.constants.DateTimeConstants;
+import ru.yandex.practicum.dto.category.CategoryDto;
+import ru.yandex.practicum.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;
 
-import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class EventShortDto {
 
-public record EventShortDto(
-        Long id,
+        Long id;
 
-        String annotation,
+        String annotation;
 
-        CategoryDto category,
+        CategoryDto category;
 
-        Long confirmedRequests,
+        Long confirmedRequests;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
-        LocalDateTime eventDate,
+        LocalDateTime eventDate;
 
-        UserShortDto initiator,
+        UserShortDto initiator;
 
-        boolean paid,
+        Boolean paid;
 
-        String title,
+        String title;
 
-        Long views
-) {
+        Long views;
 }

@@ -7,6 +7,7 @@ import ru.yandex.practicum.enums.CommentStatus;
 import java.time.LocalDateTime;
 
 public record CommentDto(
+
         Long id,
 
         String text,

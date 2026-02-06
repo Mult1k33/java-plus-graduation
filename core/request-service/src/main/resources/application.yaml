@@ -2,7 +2,7 @@ spring:
   application:
     name: request-service
   config:
-    import: "configserver"
+    import: "configserver:"
   cloud:
     config:
       fail-fast: true
@@ -15,6 +15,9 @@ spring:
 
 server:
   port: 0
+
+stats-server:
+  url: http://localhost:9090
 
 eureka:
   instance:

@@ -1,14 +1,14 @@
 package ru.yandex.practicum.dto.event;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.yandex.practicum.event.model.EventState;
+import ru.yandex.practicum.constants.DateTimeConstants;
+import ru.yandex.practicum.enums.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
-
 public record SearchEventAdminRequest(
+
         List<Long> users,
 
         List<EventState> states,

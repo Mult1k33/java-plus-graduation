@@ -1,9 +1,7 @@
 package ru.yandex.practicum.service;
 
 import org.springframework.data.domain.Pageable;
-import ru.yandex.practicum.dto.user.NewUserRequest;
-import ru.yandex.practicum.dto.user.UserDto;
-import ru.yandex.practicum.dto.user.UserShortDto;
+import ru.yandex.practicum.dto.user.*;
 
 import java.util.List;
 

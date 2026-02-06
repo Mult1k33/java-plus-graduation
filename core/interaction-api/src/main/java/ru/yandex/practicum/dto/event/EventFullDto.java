@@ -1,47 +1,55 @@
 package ru.yandex.practicum.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import ru.yandex.practicum.constants.DateTimeConstants;
 import ru.yandex.practicum.dto.category.CategoryDto;
 import ru.yandex.practicum.dto.user.UserShortDto;
+import ru.yandex.practicum.enums.EventState;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class EventFullDto {
 
-public record EventFullDto(
-        Long id,
+    Long id;
 
-        String annotation,
+    String annotation;
 
-        CategoryDto category,
+    CategoryDto category;
 
-        Long confirmedRequests,
+    Long confirmedRequests;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
-        LocalDateTime createdOn,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
+    LocalDateTime createdOn;
 
-        String description,
+    String description;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
-        LocalDateTime eventDate,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
+    LocalDateTime eventDate;
 
-        UserShortDto initiator,
+    UserShortDto initiator;
 
-        LocationDto location,
+    LocationDto location;
 
-        Boolean paid,
+    Boolean paid;
 
-        Integer participantLimit,
+    Integer participantLimit;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
-        LocalDateTime publishedOn,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_TIME_PATTERN)
+    LocalDateTime publishedOn;
 
-        Boolean requestModeration,
+    Boolean requestModeration;
 
-        EventState state,
+    EventState state;
 
-        String title,
+    String title;
 
-        Long views
-) {
+    Long views;
 }

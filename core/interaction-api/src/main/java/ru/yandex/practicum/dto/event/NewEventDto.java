@@ -2,12 +2,12 @@ package ru.yandex.practicum.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
+import ru.yandex.practicum.constants.DateTimeConstants;
 
 import java.time.LocalDateTime;
 
-import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
-
 public record NewEventDto(
+
         @NotBlank(message = "Краткое описание не может быть пустым")
         @Size(min = 20, max = 2000, message = "Аннотация должна содержать от {min} до {max} символов")
         String annotation,

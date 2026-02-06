@@ -3,6 +3,7 @@ package ru.yandex.practicum.dto.event;
 import jakarta.validation.constraints.NotNull;
 
 public record LocationDto(
+
        @NotNull(message = "Широта не может быть null")
        Float lat,
 

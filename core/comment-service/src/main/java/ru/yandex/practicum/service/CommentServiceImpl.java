@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
         checkUserExists(userId);
         EventFullDto event = eventClient.getEvent(eventId);
 
-        if (event.state() != EventState.PUBLISHED) {
+        if (event.getState() != EventState.PUBLISHED) {
             throw new ConflictException("Нельзя комментировать неопубликованное событие");
         }
 

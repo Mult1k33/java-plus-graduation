@@ -8,8 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.dto.comment.CommentAdminDto;
-import ru.yandex.practicum.dto.comment.CommentDto;
+import ru.yandex.practicum.dto.comment.*;
 import ru.yandex.practicum.enums.CommentStatus;
 import ru.yandex.practicum.service.CommentService;
 

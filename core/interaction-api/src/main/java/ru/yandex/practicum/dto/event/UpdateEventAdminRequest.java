@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
-import ru.yandex.practicum.event.model.StateActionAdmin;
+import ru.yandex.practicum.constants.DateTimeConstants;
+import ru.yandex.practicum.enums.StateActionAdmin;
 
 import java.time.LocalDateTime;
 
-import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
-
 public record UpdateEventAdminRequest(
+
         @Size(min = 20, max = 2000, message = "Недопустимое количество символов")
         String annotation,
 

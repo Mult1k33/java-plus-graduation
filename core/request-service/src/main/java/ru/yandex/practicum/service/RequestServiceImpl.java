@@ -8,20 +8,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.client.EventClient;
 import ru.yandex.practicum.client.UserClient;
 import ru.yandex.practicum.dto.event.EventFullDto;
-import ru.yandex.practicum.dto.request.EventRequestStatusUpdateRequest;
-import ru.yandex.practicum.dto.request.EventRequestStatusUpdateResult;
-import ru.yandex.practicum.dto.request.ParticipationRequestDto;
+import ru.yandex.practicum.dto.request.*;
 import ru.yandex.practicum.enums.EventState;
 import ru.yandex.practicum.enums.RequestStatus;
-import ru.yandex.practicum.exception.ConflictException;
-import ru.yandex.practicum.exception.NotFoundException;
-import ru.yandex.practicum.exception.ValidationException;
+import ru.yandex.practicum.exception.*;
 import ru.yandex.practicum.mapper.RequestMapper;
 import ru.yandex.practicum.model.Request;
 import ru.yandex.practicum.repository.RequestRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -39,21 +35,21 @@ public class RequestServiceImpl implements RequestService {
         checkUserExists(userId);
         EventFullDto event = eventClient.getEvent(eventId);
 
-        if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) { // 1. Исправлен порядок параметров
+        if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) {
             throw new ConflictException("Нельзя добавить повторный запрос");
         }
 
-        if (event.initiator().id().equals(userId)) {
+        if (event.getInitiator().id().equals(userId)) {
             throw new ConflictException("Инициатор события не может добавить запрос на участие в своём событии");
         }
 
-        if (event.state() != EventState.PUBLISHED) {
+        if (event.getState() != EventState.PUBLISHED) {
             throw new ConflictException("Нельзя участвовать в неопубликованном событии");
         }
 
-        if (event.participantLimit() != 0 &&
+        if (event.getParticipantLimit() != 0 &&
                 requestRepository.countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED)
-                        >= event.participantLimit()) {
+                        >= event.getParticipantLimit()) {
             throw new ConflictException("Достигнут лимит по количеству участников события с id=" + eventId);
         }
 
@@ -63,7 +59,7 @@ public class RequestServiceImpl implements RequestService {
                 .status(RequestStatus.PENDING)
                 .build();
 
-        if (!event.requestModeration() || event.participantLimit() == 0) {
+        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             log.debug("Модерация заявок на участие в событии с id={} не требуется", eventId);
             request.confirmed();
         }
@@ -97,13 +93,12 @@ public class RequestServiceImpl implements RequestService {
         return requestMapper.toDto(request);
     }
 
-
     @Override
     public List<ParticipationRequestDto> getRequestsByEvent(Long userId, Long eventId) {
         checkUserExists(userId);
         EventFullDto event = eventClient.getEvent(eventId);
 
-        if (!event.initiator().id().equals(userId)) {
+        if (!event.getInitiator().id().equals(userId)) {
             throw new ValidationException("Пользователь с id=" + userId + " не является создателем события");
         }
 
@@ -119,11 +114,11 @@ public class RequestServiceImpl implements RequestService {
         checkUserExists(userId);
         EventFullDto event = eventClient.getEvent(eventId);
 
-        if (!event.initiator().id().equals(userId)) {
+        if (!event.getInitiator().id().equals(userId)) {
             throw new ValidationException("Пользователь с id=" + userId + " не является создателем события");
         }
 
-        if (!event.requestModeration() || event.participantLimit() == 0) {
+        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
             throw new ValidationException("Для данного события подтверждение заявок не требуется");
         }
 
@@ -132,17 +127,16 @@ public class RequestServiceImpl implements RequestService {
             throw new ValidationException("Устанавливать можно только статусы CONFIRMED или REJECTED");
         }
 
-        // 2. Оптимизированный запрос для фиксированного количества
         List<Request> requestsForUpdate = requestRepository.findByIdIn(requestDto.requestIds());
         long currentConfirmedCount = requestRepository.countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED);
-        List<Request> pendingRequests = currentConfirmedCount + requestsForUpdate.size() >= event.participantLimit()
+        List<Request> pendingRequests = currentConfirmedCount + requestsForUpdate.size() >= event.getParticipantLimit()
                 ? requestRepository.findByEventIdAndStatus(eventId, RequestStatus.PENDING)
                 : List.of();
 
         validateAllRequestsExist(requestDto.requestIds(), requestsForUpdate);
         validateRequestsState(requestsForUpdate, eventId);
 
-        long availableSlots = event.participantLimit() - currentConfirmedCount;
+        long availableSlots = event.getParticipantLimit() - currentConfirmedCount;
 
         List<Request> confirmedRequests = new ArrayList<>();
         List<Request> rejectedRequests = new ArrayList<>();
@@ -197,6 +191,39 @@ public class RequestServiceImpl implements RequestService {
                 requestMapper.toDtoList(confirmedRequests),
                 requestMapper.toDtoList(rejectedRequests)
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<Long, Long> getConfirmedRequestsForEvents(List<Long> eventIds) {
+        log.debug("Получение количества подтверждённых заявок для событий: {}", eventIds);
+
+        if (eventIds == null || eventIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        try {
+            List<Object[]> results = requestRepository.countConfirmedRequestsByEventIds(eventIds);
+
+            Map<Long, Long> resultMap = new HashMap<>();
+            for (Long eventId : eventIds) {
+                resultMap.put(eventId, 0L);
+            }
+
+            for (Object[] row : results) {
+                Long eventId = (Long) row[0];
+                Long count = (Long) row[1];
+                resultMap.put(eventId, count);
+            }
+
+            log.debug("Результат: {}", resultMap);
+            return resultMap;
+
+        } catch (Exception e) {
+            log.error("Ошибка при получении количества подтверждённых заявок", e);
+            return eventIds.stream()
+                    .collect(Collectors.toMap(id -> id, id -> 0L));
+        }
     }
 
     private void checkUserExists(Long userId) {

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record CategoryDto(
+
       Long id,
 
       @NotBlank(message = "Название категории не может быть пустым")

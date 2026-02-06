@@ -1,9 +1,6 @@
 package ru.yandex.practicum.service;
 
-import ru.yandex.practicum.dto.comment.CommentAdminDto;
-import ru.yandex.practicum.dto.comment.CommentDto;
-import ru.yandex.practicum.dto.comment.NewCommentDto;
-import ru.yandex.practicum.dto.comment.UpdateCommentDto;
+import ru.yandex.practicum.dto.comment.*;
 import ru.yandex.practicum.enums.CommentStatus;
 
 import java.time.LocalDateTime;

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Set;
 
 public record NewCompilationDto(
+
         Set<Long> events,
 
         boolean pinned,
