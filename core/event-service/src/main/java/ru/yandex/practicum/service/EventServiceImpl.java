@@ -148,7 +148,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getEventOrThrow(Long eventId) {
-        return eventRepository.findById(eventId)
+        return eventRepository.findByIdNew(eventId)
                 .orElseThrow(() -> new NotFoundException("Событие c id " + eventId + " не найдено"));
     }
 
@@ -175,10 +175,11 @@ public class EventServiceImpl implements EventService {
                 .map(Event::getId)
                 .toList();
 
-        if (eventIds.isEmpty()) return List.of();
-        List<Event> events = eventRepository.findAllByEventIds(eventIds);
+        if (eventIds.isEmpty()) {
+            return List.of();
+        }
 
-        if (events.isEmpty()) return List.of();
+        List<Event> events = eventsPage.getContent();
 
         List<Long> searchEventIds = events.stream()
                 .map(Event::getId)
@@ -206,7 +207,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventFullDto updateEventAdmin(Long eventId, UpdateEventAdminRequest request) {
-        Event event = eventRepository.findById(eventId)
+        Event event = eventRepository.findByIdNew(eventId)
                 .orElseThrow(() -> new NotFoundException("Событие c id " + eventId + " не найдено"));
 
         if (request.stateAction() != null) {
@@ -309,7 +310,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEventByIdPublic(Long eventId, String ip) {
-        Event event = eventRepository.findById(eventId)
+        Event event = eventRepository.findByIdNew(eventId)
                 .filter(ev -> ev.getState() == EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Событие c id " + eventId + " не найдено"));
 
