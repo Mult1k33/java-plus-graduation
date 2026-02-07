@@ -357,17 +357,21 @@ public class EventServiceImpl implements EventService {
     private Map<Long, Long> getConfirmedRequests(List<Long> eventIds) {
         if (eventIds.isEmpty()) return Map.of();
 
-        try {
-            return requestClient.getConfirmedRequestsCount(eventIds);
-        } catch (Exception e) {
-            log.warn("Сервис запросов недоступен, используем значение по умолчанию 0. eventIds={}", eventIds);
+        Map<Long, Long> result = new HashMap<>();
 
-            return eventIds.stream()
-                    .collect(Collectors.toMap(
-                            id -> id,
-                            id -> 0L
-                    ));
+        for (Long eventId : eventIds) {
+            try {
+                Long count = requestClient.countByStatus(eventId, RequestStatus.CONFIRMED);
+                result.put(eventId, count != null ? count : 0L);
+                log.debug("Получено {} подтвержденных запросов для события {}", count, eventId);
+            } catch (Exception e) {
+                log.warn("Не удалось получить подтвержденные запросы для события {}: {}",
+                        eventId, e.getMessage());
+                result.put(eventId, 0L);
+            }
         }
+
+        return result;
     }
 
     private Map<Long, Long> getViewsForEvents(List<Long> eventIds) {

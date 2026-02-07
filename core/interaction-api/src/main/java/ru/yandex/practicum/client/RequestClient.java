@@ -2,6 +2,7 @@ package ru.yandex.practicum.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.config.FeignRetryConfig;
 import ru.yandex.practicum.enums.RequestStatus;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 @FeignClient(
         name = "request-service",
         path = "/internal/requests",
+        configuration = FeignRetryConfig.class,
         fallback = RequestClientFallback.class
 )
 public interface RequestClient {
