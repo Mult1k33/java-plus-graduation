@@ -17,7 +17,6 @@ import ru.yandex.practicum.model.Request;
 import ru.yandex.practicum.repository.RequestRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -191,39 +190,6 @@ public class RequestServiceImpl implements RequestService {
                 requestMapper.toDtoList(confirmedRequests),
                 requestMapper.toDtoList(rejectedRequests)
         );
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Map<Long, Long> getConfirmedRequestsForEvents(List<Long> eventIds) {
-        log.debug("Получение количества подтверждённых заявок для событий: {}", eventIds);
-
-        if (eventIds == null || eventIds.isEmpty()) {
-            return Collections.emptyMap();
-        }
-
-        try {
-            List<Object[]> results = requestRepository.countConfirmedRequestsByEventIds(eventIds);
-
-            Map<Long, Long> resultMap = new HashMap<>();
-            for (Long eventId : eventIds) {
-                resultMap.put(eventId, 0L);
-            }
-
-            for (Object[] row : results) {
-                Long eventId = (Long) row[0];
-                Long count = (Long) row[1];
-                resultMap.put(eventId, count);
-            }
-
-            log.debug("Результат: {}", resultMap);
-            return resultMap;
-
-        } catch (Exception e) {
-            log.error("Ошибка при получении количества подтверждённых заявок", e);
-            return eventIds.stream()
-                    .collect(Collectors.toMap(id -> id, id -> 0L));
-        }
     }
 
     private void checkUserExists(Long userId) {

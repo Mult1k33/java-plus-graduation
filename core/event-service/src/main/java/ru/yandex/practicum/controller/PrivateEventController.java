@@ -11,9 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.client.RequestClient;
 import ru.yandex.practicum.dto.event.*;
-import ru.yandex.practicum.dto.request.*;
 import ru.yandex.practicum.service.EventService;
 
 import java.util.List;
@@ -25,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrivateEventController {
     private final EventService eventService;
-    private final RequestClient requestClient;
 
     @GetMapping
     public List<EventShortDto> getEvents(@PathVariable("userId") @Positive Long userId,
@@ -62,22 +59,5 @@ public class PrivateEventController {
     ) {
         log.debug("Controller: updateEvent userId={}, eventId={}, data={}", userId, eventId, request);
         return eventService.updateEvent(userId, eventId, request);
-    }
-
-    @GetMapping("/{eventId}/requests")
-    public List<ParticipationRequestDto> getRequestsByEvent(@PathVariable("userId") @Positive Long userId,
-                                                            @PathVariable("eventId") @Positive Long eventId
-    ) {
-        log.debug("Controller: getRequestsByEvent userId={}, eventId={}", userId, eventId);
-        return requestClient.getRequestsByEvent(userId, eventId);
-    }
-
-    @PatchMapping("/{eventId}/requests")
-    public EventRequestStatusUpdateResult updateRequestStatus(@PathVariable("userId") @Positive Long userId,
-                                                              @PathVariable("eventId") @Positive Long eventId,
-                                                              @RequestBody EventRequestStatusUpdateRequest request
-    ) {
-        log.debug("Controller: updateRequestStatus userId={}, eventId={}, data={}", userId, eventId, request);
-        return requestClient.updateRequestStatus(userId, eventId, request);
     }
 }

@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventLocation {
+public class Location {
     @NotNull(message = "Широта не может быть null")
     private Float lat;
 

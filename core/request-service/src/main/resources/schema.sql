@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS requests CASCADE;
 
 -- Создание таблицы запросов
-create TABLE IF NOT EXISTS requests (
+CREATE TABLE IF NOT EXISTS requests (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     event_id BIGINT NOT NULL,
     requester_id BIGINT NOT NULL,

@@ -7,7 +7,6 @@ import ru.yandex.practicum.model.User;
 
 import java.util.List;
 
-
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 

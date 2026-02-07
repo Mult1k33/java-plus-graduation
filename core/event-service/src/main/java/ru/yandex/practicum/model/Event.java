@@ -52,7 +52,7 @@ public class Event {
             @AttributeOverride(name = "lat", column = @Column(name = "lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "lon"))
     })
-    private EventLocation location;
+    private Location location;
 
     @Column(nullable = false)
     private Boolean paid = false;

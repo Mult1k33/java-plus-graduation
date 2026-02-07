@@ -11,6 +11,6 @@ public class UserClientFallback implements UserClient {
     @Override
     public UserShortDto getUser(Long userId) {
         log.warn("Сервис пользователей недоступен");
-        return null;
+        return new UserShortDto(userId, "Пользователь-" + userId);
     }
 }

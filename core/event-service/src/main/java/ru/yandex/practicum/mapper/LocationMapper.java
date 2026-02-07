@@ -2,11 +2,11 @@ package ru.yandex.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import ru.yandex.practicum.dto.event.LocationDto;
-import ru.yandex.practicum.model.EventLocation;
+import ru.yandex.practicum.model.Location;
 
 @Mapper(componentModel = "spring")
 public interface LocationMapper {
-    EventLocation toEventLocation(LocationDto dto);
+    Location toLocation(LocationDto dto);
 
-    LocationDto toDto(EventLocation entity);
+    LocationDto toDto(Location entity);
 }
