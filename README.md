@@ -34,7 +34,6 @@
 Для взаимодействия между микросервисами используются Feign Clients и Internal Endpoints:
 - GET /internal/events/{eventId} - возвращает полное описание события;
 - GET /internal/requests/event/{eventId}/count/{status} - возвращает количество заявок события с определенным статусом;
-- POST /internal/requests/events/count - возвращает количество подтвержденных заявок для событий;
 - GET /internal/users/{userId} - возвращает краткую информацию о пользователе.
 
 ## Внешний API
@@ -44,9 +43,7 @@
 - GET /comments/events/{eventId} - поиск опубликованных комментариев к событию;
 - GET /events - поиск событий;
 - GET /categories - категории событий;
-- GET //categories/{categoryId} - поиск категории по id;
 - GET /compilations/{compId} - поиск подборки по id;
-- 
 ### Приватные(доступны для авторизованных пользователей):
 - POST /users/{userId}/comments - добавить комментарий к событию;
 - PATCH /users/{userId}/comments/{commentId} - изменить комментарий;
