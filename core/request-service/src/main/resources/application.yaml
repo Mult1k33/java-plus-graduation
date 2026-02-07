@@ -16,9 +16,6 @@ spring:
 server:
   port: 0
 
-stats-server:
-  url: http://localhost:9090
-
 eureka:
   instance:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
