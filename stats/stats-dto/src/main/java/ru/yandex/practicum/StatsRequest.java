@@ -7,9 +7,13 @@ import java.util.List;
 import static ru.yandex.practicum.constants.DateTimeConstants.DATE_TIME_PATTERN;
 
 public record StatsRequest(
+
         LocalDateTime start,
+
         LocalDateTime end,
+
         List<String> uris,
+
         boolean unique
 ) {
     public static StatsRequest of(String start, String end, List<String> uris, boolean unique) {

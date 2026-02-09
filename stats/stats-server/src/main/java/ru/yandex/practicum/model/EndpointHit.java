@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EndpointHit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -20,7 +21,10 @@ public class EndpointHit {
     private Long id;
 
     private String app;
+
     private String uri;
+
     private String ip;
+
     private LocalDateTime timestamp;
 }

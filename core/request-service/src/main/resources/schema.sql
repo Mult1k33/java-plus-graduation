@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS requests CASCADE;
+
+-- Создание таблицы запросов
+CREATE TABLE IF NOT EXISTS requests (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    event_id BIGINT NOT NULL,
+    requester_id BIGINT NOT NULL,
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    status VARCHAR(60) NOT NULL,
+    CONSTRAINT uq_requester_event UNIQUE (requester_id, event_id)
+);
+
+-- Индекс для быстрого поиска заявок на событие
+CREATE INDEX IF NOT EXISTS idx_requests_event_id ON requests(event_id);
+-- Индекс для быстрого поиска заявок пользователя
+CREATE INDEX IF NOT EXISTS idx_requests_requester_id ON requests(requester_id);

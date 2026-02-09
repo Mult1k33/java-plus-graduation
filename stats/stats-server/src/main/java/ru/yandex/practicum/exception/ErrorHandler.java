@@ -14,11 +14,13 @@ public class ErrorHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, exception, request);
     }
 
-    private ErrorResponse buildResponse(HttpStatus httpStatus, Exception exception, HttpServletRequest request) {
+    private ErrorResponse buildResponse(
+            HttpStatus httpStatus, Exception exception, HttpServletRequest request) {
         return buildResponse(httpStatus, exception.getMessage(), exception, request);
     }
 
-    private ErrorResponse buildResponse(HttpStatus httpStatus, String message, Exception exception, HttpServletRequest request) {
+    private ErrorResponse buildResponse(
+            HttpStatus httpStatus, String message, Exception exception, HttpServletRequest request) {
         String path = request.getRequestURI();
         String httpMethod = request.getMethod();
         int statusCode = httpStatus.value();
