@@ -24,3 +24,7 @@ logging:
   level:
     root: INFO
     ru.practicum.explorewithme.main: DEBUG
+
+grpc:
+  server:
+    port: -1
