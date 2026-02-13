@@ -55,6 +55,7 @@ public class Event {
     private Location location;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean paid = false;
 
     @Column(name = "participant_limit", nullable = false)
