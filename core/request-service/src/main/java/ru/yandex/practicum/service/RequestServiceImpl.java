@@ -1,10 +1,14 @@
 package ru.yandex.practicum.service;
 
+import com.google.protobuf.Timestamp;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.stats.proto.ActionTypeProto;
+import ru.practicum.ewm.stats.proto.UserActionProto;
+import ru.yandex.practicum.client.CollectorClient;
 import ru.yandex.practicum.client.EventClient;
 import ru.yandex.practicum.client.UserClient;
 import ru.yandex.practicum.dto.event.EventFullDto;
@@ -16,6 +20,7 @@ import ru.yandex.practicum.mapper.RequestMapper;
 import ru.yandex.practicum.model.Request;
 import ru.yandex.practicum.repository.RequestRepository;
 
+import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -27,6 +32,7 @@ public class RequestServiceImpl implements RequestService {
     private final RequestMapper requestMapper;
     private final UserClient userClient;
     private final EventClient eventClient;
+    private final CollectorClient collectorClient;
 
     @Override
     @Transactional
@@ -64,6 +70,8 @@ public class RequestServiceImpl implements RequestService {
         }
 
         request = requestRepository.save(request);
+
+        sendRegisterAction(userId, eventId);
 
         log.info("Добавление нового запроса на участие в событии с id={} от пользователя с id={}", eventId, userId);
         return requestMapper.toDto(request);
@@ -225,6 +233,25 @@ public class RequestServiceImpl implements RequestService {
             if (!req.getEventId().equals(eventId)) {
                 throw new ConflictException("Запрос с id=" + req.getId() + " не относится к событию с id=" + eventId);
             }
+        }
+    }
+
+    private void sendRegisterAction(Long userId, Long eventId) {
+        try {
+            UserActionProto action = UserActionProto.newBuilder()
+                    .setUserId(userId)
+                    .setEventId(eventId)
+                    .setActionType(ActionTypeProto.REGISTER)
+                    .setTimestamp(Timestamp.newBuilder()
+                            .setSeconds(Instant.now().getEpochSecond())
+                            .setNanos(Instant.now().getNano())
+                            .build())
+                    .build();
+
+            collectorClient.sendUserAction(action);
+            log.debug("Отправлена регистрация в Collector: userId={}, eventId={}", userId, eventId);
+        } catch (Exception e) {
+            log.error("Ошибка отправки регистрации в Collector: {}", e.getMessage(), e);
         }
     }
 }

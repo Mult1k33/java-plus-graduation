@@ -27,7 +27,7 @@ create TABLE IF NOT EXISTS events (
     participant_limit INTEGER NOT NULL,
     request_moderation BOOLEAN NOT NULL,
     confirmed_requests INT NOT NULL,
-    views BIGINT NOT NULL
+    rating DOUBLE PRECISION NOT NULL
 );
 
 -- Создание таблицы подборок

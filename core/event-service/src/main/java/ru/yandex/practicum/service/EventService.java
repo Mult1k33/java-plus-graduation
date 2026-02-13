@@ -1,10 +1,12 @@
 package ru.yandex.practicum.service;
 
 import org.springframework.data.domain.Pageable;
+import ru.practicum.ewm.stats.proto.RecommendedEventProto;
 import ru.yandex.practicum.dto.event.*;
 import ru.yandex.practicum.model.Event;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface EventService {
     List<EventShortDto> getEvents(Long userId, Pageable pageable);
@@ -23,5 +25,9 @@ public interface EventService {
 
     List<EventShortDto> getEventsPublic(SearchEventPublicRequest requestParams, Pageable pageable, String ip);
 
-    EventFullDto getEventByIdPublic(Long eventId, String ip);
+    EventFullDto getEventByIdPublic(Long eventId, String ip, Long userId);
+
+    Stream<RecommendedEventProto> getRecommendationsForUser(Long userId, int maxResults);
+
+    void likeEvent(Long userId, Long eventId);
 }
