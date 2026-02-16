@@ -16,17 +16,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 public class SimilarityCalculator {
-    private final SimilarityMapper similarityMapper;
     private static final double VIEW_WEIGHT = 0.4;
     private static final double REGISTER_WEIGHT = 0.8;
     private static final double LIKE_WEIGHT = 1.0;
+    private static final double EPSILON = 1e-10;
 
     private static final Map<ActionTypeAvro, Double> WEIGHTS = Map.of(
             ActionTypeAvro.VIEW, VIEW_WEIGHT,
             ActionTypeAvro.REGISTER, REGISTER_WEIGHT,
             ActionTypeAvro.LIKE, LIKE_WEIGHT
     );
-
+    private final SimilarityMapper similarityMapper;
     private final Map<Long, Map<Long, Double>> weightMatrix = new ConcurrentHashMap<>();
     private final Map<Long, Double> weightSumByEvent = new ConcurrentHashMap<>();
     private final Map<Long, Map<Long, Double>> minWeightsSums = new ConcurrentHashMap<>();
@@ -39,7 +39,6 @@ public class SimilarityCalculator {
 
         long eventId = action.getEventId();
         long userId = action.getUserId();
-        Instant actionTimestamp = action.getTimestamp();
 
         double actionWeight = WEIGHTS.get(action.getActionType());
 
@@ -96,7 +95,9 @@ public class SimilarityCalculator {
         double totalA = weightSumByEvent.getOrDefault(eventA, 0.0);
         double totalB = weightSumByEvent.getOrDefault(eventB, 0.0);
 
-        if (totalA == 0.0 || totalB == 0.0) return 0.0;
+        if (Math.abs(totalA) < EPSILON || Math.abs(totalB) < EPSILON) {
+            return 0.0;
+        }
 
         return minSum / (Math.sqrt(totalA) * Math.sqrt(totalB));
     }
