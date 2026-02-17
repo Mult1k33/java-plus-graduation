@@ -55,6 +55,7 @@ public class Event {
     private Location location;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean paid = false;
 
     @Column(name = "participant_limit", nullable = false)
@@ -71,9 +72,9 @@ public class Event {
     @Builder.Default
     private Integer confirmedRequests = 0;
 
-    @Column(name = "views", nullable = false)
+    @Column(name = "rating", nullable = false)
     @Builder.Default
-    private Long views = 0L;
+    private Double rating = 0.0;
 
     public void pending() {
         this.state = EventState.PENDING;

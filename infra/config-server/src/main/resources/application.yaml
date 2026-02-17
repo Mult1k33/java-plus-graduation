@@ -14,6 +14,9 @@ spring:
             - classpath:config/user-service/
             - classpath:config/request-service/
             - classpath:config/comment-service/
+            - classpath:config/collector/
+            - classpath:config/aggregator/
+            - classpath:config/analyzer/
 
 server:
   port: 0
