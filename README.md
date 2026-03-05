@@ -50,7 +50,6 @@
 - GET /users/{userId}/events - события пользователя;
 - GET /users/{userId}/events/{eventId}/requests - все заявки на участие в событии;
 - PATCH /users/{userId}/requests/{requestId}/cancel - отмена заявки на участие;
-
 ### Административные(доступны только администраторам):
 - GET /admin/comments - поиск комментариев;
 - DELETE /admin/comments/{commentId} - удалить комментарий;
